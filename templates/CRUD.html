@@ -1,0 +1,170 @@
+{% extends "main/main.html" %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pokemons</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-10">
+            <p class="fs-2 fw-bold">POKEMONS</p>
+        </div>
+
+        <div class="col-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#adicionar">Adicionar</button>
+        </div>
+    </div>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>Charmander</td>
+                <td>charmander@gmail.com</td>
+                <td>40028922</td>
+                <td>12345678922</td>
+                <td>
+                    <div class="row">
+                        <div class="col d-grid">
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#visualizar"
+                                onclick="push2('{{nome}}', '{{email}}', '{{telefone}}', '{{cpf}}')">Visualizar</button>
+                        </div>
+
+                        <div class="col d-grid">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#editar"
+                                onclick="push('{{nome}}', '{{email}}', '{{telefone}}', '{{cpf}}', '{{_id}}')">Editar</button>
+                        </div>
+
+                        <div class="col d-grid">
+                            <form action="/cliente/deletar" method="post" class="d-grid"><input type="hidden" name="id"
+                                    value="{{_id}}"><button type="submit" class="btn btn-danger">Deletar</button></form>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+
+<!-- Adicionar Usuário -->
+<div class="modal fade" id="adicionar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Adicionar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/cliente/add" method="post">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" name="nome" id="Criar_nome" placeholder="Nome Completo">
+                    <br>
+                    <label for="email">E-mail:</label>
+                    <input type="text" class="form-control" name="email" id="Criar_email"
+                        placeholder="usuario@servico.com">
+                    <br>
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" class="form-control" name="telefone" id="Criar_telefone"
+                        placeholder="(00) 00000-0000">
+                    <br>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" class="form-control" name="cpf" id="Criar_cpf" placeholder="123.456.789-09">
+                    <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="Validar_dados_criar()">Adicionar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Editar Usuário -->
+<div class="modal fade" id="editar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/cliente/editar" method="post">
+                    <input type="hidden" id="Editar_id" name="id">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" id="Editar_nome" name="nome">
+                    <br>
+                    <label for="email">E-mail:</label>
+                    <input type="text" class="form-control" id="Editar_email" name="email">
+                    <br>
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" class="form-control" id="Editar_telefone" name="telefone">
+                    <br>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" class="form-control" id="Editar_cpf" name="cpf">
+                    <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" onclick="Validar_dados_editar()">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Visualizar Usuário -->
+<div class="modal fade" id="visualizar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Visualizar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="Visualizar_nome"></p>
+                <p id="Visualizar_email"></p>
+                <p id="Visualizar_telefone"></p>
+                <p id="Visualizar_cpf"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/validar_dados.js"></script>
+<script>
+    function push(nome, email, telefone, cpf, id) {
+        document.getElementById('Editar_id').value = id
+        document.getElementById('Editar_nome').value = nome
+        document.getElementById('Editar_email').value = email
+        document.getElementById('Editar_telefone').value = telefone
+        document.getElementById('Editar_cpf').value = cpf
+    }
+    function push2(nome, email, telefone, cpf, id) {
+        document.getElementById('Visualizar_nome').innerHTML = '<strong>Nome: </strong> ' + nome
+        document.getElementById('Visualizar_email').innerHTML = '<strong>E-mail: </strong> ' + email
+        document.getElementById('Visualizar_telefone').innerHTML = '<strong>Telefone: </strong> ' + telefone
+        document.getElementById('Visualizar_cpf').innerHTML = '<strong>CPF: </strong> ' + cpf
+    }
+</script>
+{% endblock %}
