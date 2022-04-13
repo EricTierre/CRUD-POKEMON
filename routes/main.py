@@ -5,7 +5,7 @@ main = Blueprint("main", __name__)
 #Main route, HOME
 @main.route("/")
 def index():
-    return render_template("crud.html", title = "1nfluencersmarketing - TEST")
+    return render_template("crud.html", title = "CRUD")
 
 #Route use to login in the app
 @main.route("/login")
@@ -18,6 +18,6 @@ def logout():
     return "logout"
 
 #Route use to register in the app
-@main.route("/Register")
+@main.route("/register")
 def register():
     return render_template("register.html", title = "Register")
