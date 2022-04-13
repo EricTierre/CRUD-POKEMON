@@ -2,8 +2,9 @@ from flask import Flask, render_template, jsonify
 from flask_restful import Resource, Api
 from flask_pymongo import PyMongo
 
+app = Flask(__name__)
 def create_app():
-    app = Flask(__name__)
+    
     #Session
     app.config["SECRET_KEY"] = "harrypotter"
 
