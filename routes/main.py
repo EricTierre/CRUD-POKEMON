@@ -14,7 +14,7 @@ def index():
         send_pokemons.append(i)
         
     if "username" in session:
-        return render_template("crud.html", title = "CRUD", user = session["username"], pokemons = send_pokemons)
+        return render_template("CRUD.html", title = "CRUD", user = session["username"], pokemons = send_pokemons)
     else:
         return redirect(url_for("main.login"))
 
