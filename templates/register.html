@@ -9,15 +9,23 @@
 <div class="container">
 
     <div class="myForm">
-        <form action="/login/register" method="post">
+        <h1 class="mb-5">Register</h1>
+        {%with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger">{{message}}</div>
+        {% endfor %}
+        {% endif %}
+        {%endwith%}
+        <form action="/register" method="post">
             <label for="name">Name</label>
-            <input type="text" class="form-control" placeholder="First name">
+            <input type="text" name="name" class="form-control" placeholder="First name">
             <label for="email">Email</label>
-            <input type="text" class="form-control" placeholder="something@something">
+            <input type="text" name="email" class="form-control" placeholder="something@something">
             <label for="password">Password</label>
-            <input type="text" class="form-control" placeholder="*****">
+            <input type="text" name="password" class="form-control" placeholder="*****">
             <br>
-            <button class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
         <br>
         <p>Already have an account? <a href="/login">Log in</a></p>
